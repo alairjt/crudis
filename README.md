@@ -1,2 +1,0 @@
-# crudis
-Creator Angular CRUD
