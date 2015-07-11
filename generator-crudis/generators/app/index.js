@@ -5,6 +5,7 @@ var yosay = require('yosay');
 
 module.exports = yeoman.generators.Base.extend({
   prompting: function () {
+	var self = this;
     var done = this.async();
 	
 	var fieldsConsulta = [];
@@ -23,50 +24,57 @@ module.exports = yeoman.generators.Base.extend({
 			message: 'Deseja gerar tela de consulta?',
 			default: true,
 		}, {
-			when: function (props) {
-				console.log(props);
-				return props.gerarTelaConsulta;
-			},
-			type: 'input',
-			name: 'fieldConsulta',
-			message: 'Nome do campo na consulta'
-		}, {
-			type: 'confirm',
-			name: 'gerarTelaCadastro',
-			message: 'Deseja gerar tela de cadastro?',
-			default: true,
-		}, {
-			when: function (props) {
-				console.log(props);
-				return props.gerarTelaCadastro;
-			},
-			type: 'input',
-			name: 'fieldCadastro',
-			message: 'Nome do campo no formulário'
-		}, {
-			name: 'parametroId',
-			message: 'Qual o nome do parâmetro ID?',
-			default: 'id'
-		}, {
 			type: 'confirm',
 			name: 'finalizar',
 			message: 'Finalizar?',
 			default: true
 		}
 	];
-
-    this.prompt(prompts, function (props) {
-		this.crudNaome = props.crudName;
-		this.parametroId = props.parametroId;
-		
-		fieldsConsulta.push(props.fieldConsulta);
-		fieldsCadastro.push(props.fieldCadastro);
-
-		console.log(props.finalizar);
-		if (props.finalizar) {
-			done();
+	
+	var promptsField = [{
+			type: 'input',
+			name: 'field',
+			message: 'Nome do campo'
+		}, {
+			type: 'confirm',
+			name: 'adicionarOutro',
+			message: 'Adicionar outro campo?',
+			default: true
 		}
-    }.bind(this));
+	];
+	
+	var askField = function () {
+		self.prompt(promptsField, function (props) {			
+			fieldsConsulta.push(props.field);
+
+			if (props.adicionarOutro) {
+				askField();
+			} else {
+				console.log(fieldsConsulta);
+				done();
+			}
+		}.bind(this));		
+	};
+	
+	var ask = function () {
+		self.prompt(prompts, function (props) {
+		console.log('a');
+			this.crudName = props.crudName;
+			this.parametroId = props.parametroId;
+			this.gerarTelaConsulta = props.gerarTelaConsulta;
+			
+			if (this.gerarTelaConsulta) {
+				askField();
+			}
+
+			if (props.finalizar) {
+				console.log('siim');
+				done();
+			}
+		}.bind(this));
+	};
+	
+	ask();
   },
   
   renderControllerFiles: function() {
@@ -78,6 +86,6 @@ module.exports = yeoman.generators.Base.extend({
 			this.template('_.formulario.controller.js', this.crudName + '/Formulario' + this.crudName + 'Controller.js');
 		}
 
-		this.template('_.service.js', this.crudName + '/' + this.crudName + 'Service.js');
+//		this.template('_.service.js', this.crudName + '/' + this.crudName + 'Service.js');
   }
 });
