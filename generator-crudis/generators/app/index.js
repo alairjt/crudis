@@ -1,17 +1,17 @@
 'use strict';
+
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var fieldsConsulta = [];
+var fieldsCadastro = [];
 
 module.exports = yeoman.generators.Base.extend({
   prompting: function () {
 	var self = this;
-    var done = this.async();
+    var done = self.async();
 	
-	var fieldsConsulta = [];
-	var fieldsCadastro = [];
-
-    this.log(yosay(
+    self.log(yosay(
       'Bem vindo ao '.concat(chalk.red('Crudis')).concat(' generator!')
     ));
 
@@ -23,11 +23,14 @@ module.exports = yeoman.generators.Base.extend({
 			name: 'gerarTelaConsulta',
 			message: 'Deseja gerar tela de consulta?',
 			default: true,
-		}, {
+		}
+	];
+	
+	var promptsFormulario = [{
 			type: 'confirm',
-			name: 'finalizar',
-			message: 'Finalizar?',
-			default: true
+			name: 'gerarTelaFormulario',
+			message: 'Deseja gerar tela de formulario?',
+			default: true,
 		}
 	];
 	
@@ -43,6 +46,46 @@ module.exports = yeoman.generators.Base.extend({
 		}
 	];
 	
+	var promptsFim = [{
+			type: 'confirm',
+			name: 'finalizar',
+			message: 'Finalizar?',
+			default: true
+		}
+	];
+	
+	var askFormulario = function () {
+		self.prompt(promptsFormulario, function (props) {
+			self.gerarTelaFormulario = props.gerarTelaFormulario;
+			
+			if (self.gerarTelaFormulario) {
+				askFieldFormulario();
+			}
+		}.bind(self));
+	};
+	
+	var askFim = function () {
+		self.prompt(promptsFim, function (props) {
+			if (props.finalizar) {
+				done();
+			} else {
+				console.log('aaaa');
+			}
+		}.bind(self));
+	};
+	
+	var askFieldFormulario = function () {
+		self.prompt(promptsField, function (props) {			
+			fieldsCadastro.push(props.field);
+
+			if (props.adicionarOutro) {
+				askFieldFormulario();
+			} else {
+				askFim();
+			}
+		}.bind(self));		
+	};
+	
 	var askField = function () {
 		self.prompt(promptsField, function (props) {			
 			fieldsConsulta.push(props.field);
@@ -50,42 +93,39 @@ module.exports = yeoman.generators.Base.extend({
 			if (props.adicionarOutro) {
 				askField();
 			} else {
-				console.log(fieldsConsulta);
-				done();
+				askFormulario();
 			}
-		}.bind(this));		
+		}.bind(self));		
 	};
 	
 	var ask = function () {
 		self.prompt(prompts, function (props) {
-		console.log('a');
-			this.crudName = props.crudName;
-			this.parametroId = props.parametroId;
-			this.gerarTelaConsulta = props.gerarTelaConsulta;
+			self.crudName = props.crudName;
+			self.gerarTelaConsulta = props.gerarTelaConsulta;
 			
-			if (this.gerarTelaConsulta) {
+			if (self.gerarTelaConsulta) {
 				askField();
 			}
-
-			if (props.finalizar) {
-				console.log('siim');
-				done();
-			}
-		}.bind(this));
+		}.bind(self));
 	};
 	
 	ask();
   },
   
   renderControllerFiles: function() {
-		if (this.gerarTelaConsulta) {
-			this.template('_.consulta.controller.js', this.crudName + '/Consulta' + this.crudName + 'Controller.js');
+		var self = this;
+		
+		console.log(fieldsConsulta);
+		console.log(fieldsCadastro);
+
+		if (self.gerarTelaConsulta) {
+			self.template('_.consulta.controller.js', self.crudName + '/Consulta' + self.crudName + 'Controller.js');
 		}
 		
-		if (this.gerarTelaCadastro) {
-			this.template('_.formulario.controller.js', this.crudName + '/Formulario' + this.crudName + 'Controller.js');
+		if (self.gerarTelaFormulario) {
+			self.template('_.formulario.controller.js', self.crudName + '/Formulario' + self.crudName + 'Controller.js');
 		}
 
-//		this.template('_.service.js', this.crudName + '/' + this.crudName + 'Service.js');
+		self.template('_.service.js', self.crudName + '/' + self.crudName + 'Service.js');
   }
 });
