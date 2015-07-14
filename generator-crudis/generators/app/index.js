@@ -1,11 +1,13 @@
 (function(){
     'use strict';
 
-    var yeoman = require('yeoman-generator');
-    var chalk = require('chalk');
-    var yosay = require('yosay');
-    var lodash = require('lodash');
-    var underscore = require('underscore.string');
+    var yeoman = require('yeoman-generator'),
+        chalk = require('chalk'),
+        yosay = require('yosay'),
+        lodash = require('lodash'), 
+        underscore = require('underscore.string'),
+        wiring = require('html-wiring');
+        
 
     var fieldsConsulta = [];
     var fieldsCadastro = [];
@@ -16,7 +18,7 @@
             done = self.async();
 
         self.log(yosay(
-          'Bem vindo ao '.concat(chalk.red('Crudis')).concat(' generator!')
+          'Bem vindo ao '.concat(chalk.red('Crudis Generator!'))
         ));
 
         var prompts = [{
@@ -119,18 +121,37 @@
       renderControllerFiles: function() {
             this.ld = lodash;
             this.uc = underscore;
+
             this.fieldsConsulta = fieldsConsulta;
 
+            this.nomeConsultaController = 'Consulta'.concat(this.crudName).concat('Controller');
+            this.pathConsultaController = this.crudName.toLowerCase().concat('/').concat(this.nomeConsultaController).concat('.js');
+            this.pathConsultaView = this.crudName.toLowerCase().concat('/consulta').concat(this.crudName).concat('.html');
+
+            this.nomeFormularioController = 'Formulario'.concat(this.crudName).concat('Controller');
+            this.pathFormularioController = this.crudName.toLowerCase().concat('/').concat(this.nomeFormularioController).concat('.js');
+            this.pathFormularioView = this.crudName.toLowerCase().concat('/formulario').concat(this.crudName).concat('.html');
+
             if (this.gerarTelaConsulta) {
-                    this.template('_.consulta.controller.js', this.crudName + '/Consulta' + this.crudName + 'Controller.js');
-                    this.template('_.consulta.view.html', this.crudName + '/consulta' + this.crudName + '.html');
+                this.template('_.consulta.controller.js', this.pathConsultaController);
+                this.template('_.consulta.view.html', this.pathConsultaView);
             }
 
             if (this.gerarTelaFormulario) {
-                    this.template('_.formulario.controller.js', this.crudName + '/Formulario' + this.crudName + 'Controller.js');
+                this.template('_.formulario.controller.js', this.pathFormularioController);
             }
 
-            this.template('_.service.js', this.crudName + '/' + this.crudName + 'Service.js');
+            this.template('_.service.js', this.crudName.toLowerCase().concat('/').concat(this.crudName + 'Service.js'));
+            this.template('_.route.config.js', this.crudName.toLowerCase().concat('/').concat(this.crudName + 'Config.js'));
+            
+            //Adicionar
+            var a = '<script src="'.concat(this.pathConsultaController).concat('"></script>\n');
+//            console.log(a);
+//            var index = wiring.readFileAsString('index.html');
+//            console.log(wiring.append(index, 'html', a));
+            
+            wiring.appendToFile('index.html', 'html', a);
+            
       }
     });
 })();
