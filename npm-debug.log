@@ -2,16 +2,16 @@
 1 verbose cli [ 'c:\\Program Files\\nodejs\\node.exe',
 1 verbose cli   'c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
 1 verbose cli   'link' ]
-2 info using npm@2.11.3
-3 info using node@v0.12.7
+2 info using npm@2.9.1
+3 info using node@v0.12.3
 4 verbose linkPkg d:\workspace\crudis
 5 verbose stack Error: ENOENT, open 'd:\workspace\crudis\package.json'
 5 verbose stack     at Error (native)
 6 verbose cwd d:\workspace\crudis
 7 error Windows_NT 6.1.7601
 8 error argv "c:\\Program Files\\nodejs\\node.exe" "c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "link"
-9 error node v0.12.7
-10 error npm  v2.11.3
+9 error node v0.12.3
+10 error npm  v2.9.1
 11 error path d:\workspace\crudis\package.json
 12 error code ENOENT
 13 error errno -4058

@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-
+    
     app.factory('<%= crudName %>Service', ['<%= crudName %>', function (<%= crudName %>) {
 		var <%= crudName %>Service = {};
 		
