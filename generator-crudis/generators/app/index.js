@@ -11,6 +11,11 @@
 
     var fieldsConsulta = [];
     var fieldsCadastro = [];
+    
+    var adicionarAoIndex = function (path) {
+        var script = '\t<script src="'.concat(path).concat('"></script>\r\n');
+        wiring.appendToFile('index.html', 'html', script);
+    };
 
     module.exports = yeoman.generators.Base.extend({
       prompting: function () {
@@ -126,10 +131,12 @@
 
             this.nomeConsultaController = 'Consulta'.concat(this.crudName).concat('Controller');
             this.pathConsultaController = this.crudName.toLowerCase().concat('/').concat(this.nomeConsultaController).concat('.js');
+            adicionarAoIndex(this.pathConsultaController);
             this.pathConsultaView = this.crudName.toLowerCase().concat('/consulta').concat(this.crudName).concat('.html');
 
             this.nomeFormularioController = 'Formulario'.concat(this.crudName).concat('Controller');
             this.pathFormularioController = this.crudName.toLowerCase().concat('/').concat(this.nomeFormularioController).concat('.js');
+            adicionarAoIndex(this.pathFormularioController);
             this.pathFormularioView = this.crudName.toLowerCase().concat('/formulario').concat(this.crudName).concat('.html');
 
             if (this.gerarTelaConsulta) {
@@ -141,17 +148,27 @@
                 this.template('_.formulario.controller.js', this.pathFormularioController);
             }
 
-            this.template('_.service.js', this.crudName.toLowerCase().concat('/').concat(this.crudName + 'Service.js'));
-            this.template('_.route.config.js', this.crudName.toLowerCase().concat('/').concat(this.crudName + 'Config.js'));
+            this.pathService = this.crudName.toLowerCase().concat('/').concat(this.crudName + 'Service.js');
+            this.template('_.service.js', this.pathService);
+            adicionarAoIndex(this.pathService);
             
-            //Adicionar
-            var a = '<script src="'.concat(this.pathConsultaController).concat('"></script>\n');
-//            console.log(a);
-//            var index = wiring.readFileAsString('index.html');
-//            console.log(wiring.append(index, 'html', a));
+            this.pathRoute = this.crudName.toLowerCase().concat('/').concat(this.crudName + 'Config.js');
+            this.template('_.route.config.js', this.pathRoute);
+            adicionarAoIndex(this.pathRoute);
             
-            wiring.appendToFile('index.html', 'html', a);
+            var novoMenu = {
+                "nome": "label.".concat(this.crudName.toLowerCase()),
+                "href": "home.cadastros.".concat(this.crudName.toLowerCase()),
+                "id": "cadastros-".concat(this.crudName.toLowerCase())
+            };
             
+            var menus = JSON.parse(wiring.readFileAsString('template/menu.json'));
+            
+            menus.menus[0].submenus.push(novoMenu);
+            
+            var a = JSON.stringify(menus);
+            
+            wiring.writeFileFromString(a, 'template/menu.json');
       }
     });
 })();

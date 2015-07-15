@@ -1,6 +1,7 @@
-app.config(['$stateProvider', '$urlRouterProvider',
-    function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise("/");
+(function () {
+    "use strict";
+
+    app.config(['$stateProvider', function ($stateProvider) {
         $stateProvider
                 .state('home.cadastros.<%= crudName.toLowerCase() %>', {
                     url: "<%= crudName.toLowerCase() %>",
@@ -45,3 +46,4 @@ app.config(['$stateProvider', '$urlRouterProvider',
                 })
                 ;
     }]);
+})();

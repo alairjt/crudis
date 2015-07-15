@@ -13,7 +13,7 @@
                 <div class="col-12">
                     <div class="panel">
                         <div class="input-group">
-                            <button id="btnNovo<%=crudName%>" ng-click="cancelarRegistro()" ui-sref="home.cadastros.<%=crudName%>.novo" class="btn btn-success navbar-right" type="button"><span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{{"label.novo"| translate}}</span></button>
+                            <button id="btnNovo<%=crudName%>" ng-click="cancelarRegistro()" ui-sref="home.cadastros.<%=crudName.toLowerCase()%>.novo" class="btn btn-success navbar-right" type="button"><span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{{"label.novo"| translate}}</span></button>
                         </div>           
                     </div>
                 </div>
@@ -21,14 +21,8 @@
             <br/>
             <div class="row">
                 <div class="col-12">
-                    <div ng-show="filtered.length === 0">
-                        <h3>
-                            <span class="label label-warning">
-                                <i class="glyphicon glyphicon-info-sign"></i> {{"message.nenhum_registro_cadastro"| translate}}
-                            </span>
-                        </h3>
-                    </div>
-                    <table ng-show="filtered.length > 0" class="table table-condensed noCursor">
+                    <!--@TODO Retirado para teste: ng-show="filtered.length > 0"--> 
+                    <table class="table table-condensed noCursor">
                         <tr>
                             <% ld.forEach(fieldsConsulta, function (field) { %>
                                 <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field%>')">{{"label.<%=field%>"| translate}}</a></th>
