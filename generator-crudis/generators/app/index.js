@@ -16,6 +16,28 @@
     wiring.appendToFile('index.html', 'html', script);
   };
 
+  var criarMenu = function (crudName, menu) {
+    return {
+      "nome": "label.".concat(crudName.toLowerCase()),
+      "href": "home.".concat(menu.toLowerCase()).concat(".").concat(crudName.toLowerCase()),
+      "id": menu.toLowerCase().concat("-").concat(crudName.toLowerCase())
+    };
+  };
+
+  var adicionarAoMenu = function (crudName, nomeMenu) {
+
+    var menu = JSON.parse(wiring.readFileAsString('template/menu.json'));
+
+    for (var i = 0; i < menu.menus.length; i++) {
+      if (menu.menus[i].nome === nomeMenu) {
+        menu.menus[i].submenus.push(criarMenu(crudName, nomeMenu));
+
+        wiring.writeFileFromString(JSON.stringify(menu), 'template/menu.json');
+        break;
+      }
+    }
+  };
+
   module.exports = yeoman.generators.Base.extend({
     prompting: function () {
       var self = this,
@@ -128,7 +150,6 @@
 
       this.template('_.consulta.controller.js', this.pathConsultaController);
       this.template('_.consulta.view.html', this.pathConsultaView);
-
       this.template('_.formulario.controller.js', this.pathFormularioController);
 
       this.pathService = this.crudName.toLowerCase().concat('/').concat(this.crudName + 'Service.js');
@@ -139,20 +160,8 @@
       this.template('_.route.config.js', this.pathRoute);
       adicionarAoIndex(this.pathRoute);
 
-      var novoMenu = {
-        "nome": "label.".concat(this.crudName.toLowerCase()),
-        "href": "home.".concat("<%= menu.toLowerCase() %>.").concat(this.crudName.toLowerCase()),
-        "id": "cadastros-".concat(this.crudName.toLowerCase())
-      };
 
-      var menus = JSON.parse(wiring.readFileAsString('template/menu.json'));
-
-      console.log("Ver erro aqui")
-      menus.menus[this.menu].submenus.push(novoMenu);
-
-      var a = JSON.stringify(menus);
-
-      wiring.writeFileFromString(a, 'template/menu.json');
+      adicionarAoMenu(this.crudName, this.menu);
     }
   });
 })();
