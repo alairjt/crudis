@@ -14,23 +14,23 @@
                     <div class="panel">
                         <div class="input-group">
                             <button id="btnNovo<%=crudName%>" ng-click="cancelarRegistro()" ui-sref="home.cadastros.<%=crudName.toLowerCase()%>.novo" class="btn btn-success navbar-right" type="button"><span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{{"label.novo"| translate}}</span></button>
-                        </div>           
+                        </div>
                     </div>
                 </div>
             </div>
             <br/>
             <div class="row">
                 <div class="col-12">
-                    <!--@TODO Retirado para teste: ng-show="filtered.length > 0"--> 
+                    <!--@TODO Retirado para teste: ng-show="filtered.length > 0"-->
                     <table class="table table-condensed noCursor">
                         <tr>
-                            <% ld.forEach(fieldsConsulta, function (field) { %>
-                                <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field%>')">{{"label.<%=field%>"| translate}}</a></th>
+                            <% ld.forEach(fields, function (field) { %>
+                                <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field.nome%>')">{{"label.<%=field.nome%>"| translate}}</a></th>
                             <% }) %>
                         </tr>
                         <tr dir-paginate="<%=crudName.toLowerCase()%> in filtered | orderBy:campoOrderBy:reverse | itemsPerPage: pageSize" current-page="currentPage">
-                            <% ld.forEach(fieldsConsulta, function (field) { %>
-                                <td class="text-center col-lg-2">{{<%=crudName.toLowerCase()%>.<%=field%>}}</td>
+                            <% ld.forEach(fields, function (field) { %>
+                                <td class="text-center col-lg-2">{{<%=crudName.toLowerCase()%>.<%=field.nome%>}}</td>
                             <% }) %>
                         </tr>
                     </table>
