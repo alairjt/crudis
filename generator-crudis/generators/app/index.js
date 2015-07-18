@@ -151,6 +151,7 @@
       this.template('_.consulta.controller.js', this.pathConsultaController);
       this.template('_.consulta.view.html', this.pathConsultaView);
       this.template('_.formulario.controller.js', this.pathFormularioController);
+      this.template('_.formulario.view.html', this.pathFormularioView);
 
       this.pathService = this.crudName.toLowerCase().concat('/').concat(this.crudName + 'Service.js');
       this.template('_.service.js', this.pathService);
