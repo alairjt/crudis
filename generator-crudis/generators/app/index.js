@@ -26,8 +26,16 @@
       ));
 
       var prompts = [{
+        type: "input",
         name: 'crudName',
         message: 'Qual o nome do CRUD?'
+      }, {
+        type: "list",
+        name: "menu",
+        message: "Adicionar ao menu?",
+        choices: function () {
+          return buscarMenusDisponiveis();
+        }
       }];
 
       var promptsField = [{
@@ -61,32 +69,39 @@
       }
       ];
 
+      var buscarMenusDisponiveis = function () {
+        var menu = JSON.parse(wiring.readFileAsString('template/menu.json'));
+        var menus = [];
+
+        for (var i = 0; i < menu.menus.length; i++) {
+          menus.push(menu.menus[i].nome);
+        }
+
+        return menus;
+      };
+
+      var processarRetornoPrompt = function (check, callbackTrue, callbackFalse) {
+        return check ? callbackTrue() : callbackFalse();
+      };
+
       var askFim = function () {
         self.prompt(promptsFim, function (props) {
-          if (props.finalizar) {
-            done();
-          } else {
-            askField();
-          }
+          processarRetornoPrompt(props.finalizar, done, askField);
         }.bind(self));
       };
 
       var askField = function () {
         self.prompt(promptsField, function (props) {
-          var field = {nome: props.nome, tipo: props.tipo};
-          fields.push(field);
-          console.log(fields);
-          if (props.adicionarOutro) {
-            askField();
-          } else {
-            askFim();
-          }
+          fields.push({nome: props.nome, tipo: props.tipo});
+
+          processarRetornoPrompt(props.adicionarOutro, askField, askFim);
         }.bind(self));
       };
 
       var ask = function () {
         self.prompt(prompts, function (props) {
           self.crudName = props.crudName;
+          self.menu = props.menu;
 
           askField();
         }.bind(self));
@@ -126,13 +141,14 @@
 
       var novoMenu = {
         "nome": "label.".concat(this.crudName.toLowerCase()),
-        "href": "home.cadastros.".concat(this.crudName.toLowerCase()),
+        "href": "home.".concat("<%= menu.toLowerCase() %>.").concat(this.crudName.toLowerCase()),
         "id": "cadastros-".concat(this.crudName.toLowerCase())
       };
 
       var menus = JSON.parse(wiring.readFileAsString('template/menu.json'));
 
-      menus.menus[0].submenus.push(novoMenu);
+      console.log("Ver erro aqui")
+      menus.menus[this.menu].submenus.push(novoMenu);
 
       var a = JSON.stringify(menus);
 

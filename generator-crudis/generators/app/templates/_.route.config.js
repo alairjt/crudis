@@ -3,7 +3,7 @@
 
     app.config(['$stateProvider', function ($stateProvider) {
         $stateProvider
-                .state('home.cadastros.<%= crudName.toLowerCase() %>', {
+                .state('home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>', {
                     url: "<%= crudName.toLowerCase() %>",
                     views: {
                         'content@': {
@@ -16,9 +16,9 @@
                         operacoes: []
                     }
                 })
-                .state('home.cadastros.<%= crudName.toLowerCase() %>.novo', {
+                .state('home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>.novo', {
                     url: "novo",
-                    transition: "home.cadastros.<%= crudName.toLowerCase() %>",
+                    transition: "home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>",
                     views: {
                         'content@': {
                             templateUrl: "<%= pathFormularioView %>",
@@ -30,9 +30,9 @@
                         operacoes: []
                     }
                 })
-                .state('home.cadastros.<%= crudName.toLowerCase() %>.editar', {
+                .state('home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>.editar', {
                     url: "editar/:id",
-                    transition: "home.cadastros.<%= crudName.toLowerCase() %>",
+                    transition: "home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>",
                     views: {
                         'content@': {
                             templateUrl: "<%= pathFormularioView %>",
