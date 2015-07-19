@@ -2,8 +2,11 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/generator-crudis/generators/app/index.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/generator-crudis/generators/app/templates/_.consulta.controller.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/generator-crudis/generators/app/templates/_.consulta.view.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/generator-crudis/generators/app/templates/_.formulario.controller.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/generator-crudis/generators/app/templates/_.formulario.view.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/generator-crudis/generators/app/templates/_.route.config.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/generator-crudis/generators/app/templates/_.service.js" charset="UTF-8" />
   </component>
 </project>

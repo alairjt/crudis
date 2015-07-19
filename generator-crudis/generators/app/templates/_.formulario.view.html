@@ -2,7 +2,7 @@
   <div class="row">
     <% ld.forEach(fields, function (field) { %>
       <div class="col-sm-6">
-        <nx-display-validation input="<%= crudName.toLowerCase() %>Formulario.<%= field.nome.toLowerCase() %>" label="<%= field.nome %>"
+        <nx-display-validation input="<%= crudName.toLowerCase() %>Formulario.<%= field.nome.toLowerCase() %>" label="<%= capitalize(field.nome) %>"
                                obrigatorio="field.obrigatorio">
           <input nx-focus="true" type="text" class="form-control"
                  id="<%= field.nome.toLowerCase() %>" name="<%= field.nome.toLowerCase() %>"
@@ -22,10 +22,10 @@
                 ng-click="cancelar();"><i class="glyphicon glyphicon-file"></i> <span class="hidden-xs">{{"Limpar"| translate}}</span>
         </button>
         <div class="pull-right">
-          <button id="btnCancelar<%= crudName.toLowerCase() %>" type="button" class="btn btn-default" data-toggle="modal"
+          <button id="btnCancelar<%=capitalize(crudName)%>" type="button" class="btn btn-default" data-toggle="modal"
                   data-target="#dialogCancelamento"><i class="glyphicon glyphicon-remove"></i> <span class="hidden-xs">{{"Cancelar"| translate}}</span>
           </button>
-          <button id="btnSalvar<%= crudName.toLowerCase() %>" class="btn btn-success" ng-click="salvar(<%= crudName.toLowerCase() %>Selecionado)"
+          <button id="btnSalvar<%=capitalize(crudName)%>" class="btn btn-success" ng-click="salvar(<%= crudName.toLowerCase() %>Selecionado)"
                   ng-disabled="<%= crudName.toLowerCase() %>Form.$invalid"><i class="glyphicon glyphicon-ok"></i>
             <span class="hidden-xs">{{"Salvar"| translate}}</span></button>
         </div>

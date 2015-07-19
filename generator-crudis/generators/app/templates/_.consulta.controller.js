@@ -1,7 +1,7 @@
 (function (){
 	'use strict';
 
-	app.controller('Consulta<%= crudName %>Controller', ['$scope',
+	app.controller('Consulta<%= capitalize(crudName) %>Controller', ['$scope',
 		function($scope) {
 			// <%= crudName %> controller logic
 			// ...

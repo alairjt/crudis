@@ -6,19 +6,21 @@
     yosay = require('yosay'),
     lodash = require('lodash'),
     underscore = require('underscore.string'),
-    wiring = require('html-wiring');
+    wiring = require('html-wiring'),
+    fields = [];
 
-
-  var fields = [];
+  var capitalize = function (string) {
+    return underscore.capitalize(string.toLowerCase());
+  };
 
   var adicionarAoIndex = function (path) {
-    var script = '\t<script src="'.concat(path).concat('"></script>\r\n');
+    var script = '\t<script src="'.concat(path.toLowerCase()).concat('"></script>\r\n');
     wiring.appendToFile('index.html', 'html', script);
   };
 
   var criarMenu = function (crudName, menu) {
     return {
-      "nome": "label.".concat(crudName.toLowerCase()),
+      "nome": capitalize(crudName),
       "href": "home.".concat(menu.toLowerCase()).concat(".").concat(crudName.toLowerCase()),
       "id": menu.toLowerCase().concat("-").concat(crudName.toLowerCase())
     };
@@ -135,29 +137,30 @@
     renderControllerFiles: function () {
       this.ld = lodash;
       this.uc = underscore;
+      this.capitalize = capitalize;
 
       this.fields = fields;
 
-      this.nomeConsultaController = 'Consulta'.concat(this.crudName).concat('Controller');
+      this.nomeConsultaController = 'Consulta'.concat(capitalize(this.crudName)).concat('Controller');
       this.pathConsultaController = this.crudName.toLowerCase().concat('/').concat(this.nomeConsultaController).concat('.js');
       adicionarAoIndex(this.pathConsultaController);
-      this.pathConsultaView = this.crudName.toLowerCase().concat('/consulta').concat(this.crudName).concat('.html');
+      this.pathConsultaView = this.crudName.toLowerCase().concat('/consulta').concat(capitalize(this.crudName)).concat('.html');
 
-      this.nomeFormularioController = 'Formulario'.concat(this.crudName).concat('Controller');
+      this.nomeFormularioController = 'Formulario'.concat(capitalize(this.crudName)).concat('Controller');
       this.pathFormularioController = this.crudName.toLowerCase().concat('/').concat(this.nomeFormularioController).concat('.js');
       adicionarAoIndex(this.pathFormularioController);
-      this.pathFormularioView = this.crudName.toLowerCase().concat('/formulario').concat(this.crudName).concat('.html');
+      this.pathFormularioView = this.crudName.toLowerCase().concat('/formulario').concat(capitalize(this.crudName)).concat('.html');
 
       this.template('_.consulta.controller.js', this.pathConsultaController);
       this.template('_.consulta.view.html', this.pathConsultaView);
       this.template('_.formulario.controller.js', this.pathFormularioController);
       this.template('_.formulario.view.html', this.pathFormularioView);
 
-      this.pathService = this.crudName.toLowerCase().concat('/').concat(this.crudName + 'Service.js');
+      this.pathService = this.crudName.toLowerCase().concat('/').concat(capitalize(this.crudName) + 'Service.js');
       this.template('_.service.js', this.pathService);
       adicionarAoIndex(this.pathService);
 
-      this.pathRoute = this.crudName.toLowerCase().concat('/').concat(this.crudName + 'Config.js');
+      this.pathRoute = this.crudName.toLowerCase().concat('/').concat(capitalize(this.crudName) + 'Config.js');
       this.template('_.route.config.js', this.pathRoute);
       adicionarAoIndex(this.pathRoute);
 

@@ -3,8 +3,8 @@
         <div class="table-responsive">
             <div class="row">
                 <div class="col-lg-12">
-                    <label class="control-label">{{"label.buscar"| translate}}:</label>
-                    <input id="inputPesquisar<%=crudName%>" nx-focus="true" type="text" class="form-control"
+                    <label class="control-label">{{"Buscar"| translate}}:</label>
+                    <input id="inputPesquisar<%=capitalize(crudName)%>" nx-focus="true" type="text" class="form-control"
                            placeholder="" ng-model="criterio">
                 </div>
             </div>
@@ -13,7 +13,7 @@
                 <div class="col-12">
                     <div class="panel">
                         <div class="input-group">
-                            <button id="btnNovo<%=crudName%>" ng-click="cancelarRegistro()" ui-sref="home.cadastros.<%=crudName.toLowerCase()%>.novo" class="btn btn-success navbar-right" type="button"><span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{{"label.novo"| translate}}</span></button>
+                            <button id="btnNovo<%=capitalize(crudName)%>" ng-click="cancelarRegistro()" ui-sref="home.<%=menu.toLowerCase()%>.<%=crudName.toLowerCase()%>.novo" class="btn btn-success navbar-right" type="button"><span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{{"label.novo"| translate}}</span></button>
                         </div>
                     </div>
                 </div>
@@ -25,17 +25,17 @@
                     <table class="table table-condensed noCursor">
                         <tr>
                             <% ld.forEach(fields, function (field) { %>
-                                <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field.nome%>')">{{"label.<%=field.nome%>"| translate}}</a></th>
+                                <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field.nome.toLowerCase()%>')">{{"<%=capitalize(field.nome)%>"| translate}}</a></th>
                             <% }) %>
                         </tr>
                         <tr dir-paginate="<%=crudName.toLowerCase()%> in filtered | orderBy:campoOrderBy:reverse | itemsPerPage: pageSize" current-page="currentPage">
                             <% ld.forEach(fields, function (field) { %>
-                                <td class="text-center col-lg-2">{{<%=crudName.toLowerCase()%>.<%=field.nome%>}}</td>
+                                <td class="text-center col-lg-2">{{<%=crudName.toLowerCase()%>.<%=field.nome.toLowerCase()%>}}</td>
                             <% }) %>
                         </tr>
                     </table>
                     <div class="panel" ng-show="filtered.length > 0">
-                        <strong>{{"label.total_busca"| translate}}: {{filtered.length}}</strong>
+                        <strong>{{"Total busca"| translate}}: {{filtered.length}}</strong>
                     </div>
                 </div>
             </div>

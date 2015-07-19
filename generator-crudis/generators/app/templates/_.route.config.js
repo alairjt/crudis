@@ -12,7 +12,7 @@
                         }
                     },
                     data: {
-                        displayName: 'label.<%= crudName.toLowerCase() %>',
+                        displayName: '<%= capitalize(crudName) %>',
                         operacoes: []
                     }
                 })
@@ -26,7 +26,7 @@
                         }
                     },
                     data: {
-                        displayName: 'label.novo',
+                        displayName: 'Novo',
                         operacoes: []
                     }
                 })
@@ -40,7 +40,7 @@
                         }
                     },
                     data: {
-                        displayName: 'label.editar',
+                        displayName: 'Editar',
                         operacoes: []
                     }
                 })
