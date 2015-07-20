@@ -14,7 +14,7 @@
   };
 
   var adicionarAoIndex = function (path) {
-    var script = '\t<script src="'.concat(path.toLowerCase()).concat('"></script>\r\n');
+    var script = '\t<script src="'.concat(path).concat('"></script>\r\n');
     wiring.appendToFile('index.html', 'html', script);
   };
 
@@ -163,7 +163,10 @@
       this.pathRoute = this.crudName.toLowerCase().concat('/').concat(capitalize(this.crudName) + 'Config.js');
       this.template('_.route.config.js', this.pathRoute);
       adicionarAoIndex(this.pathRoute);
-
+	  
+	  this.pathResource = this.crudName.toLowerCase().concat('/').concat(capitalize(this.crudName)).concat('.js');
+      this.template('_.resource.js', this.pathResource);
+      adicionarAoIndex(this.pathResource);
 
       adicionarAoMenu(this.crudName, this.menu);
     }

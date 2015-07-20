@@ -1,9 +1,9 @@
 (function (){
 	'use strict';
 
-	app.controller('Formulario<%= capitalize(crudName) %>Controller', ['$scope', '$stateParam', '<%= capitalize(crudName) %>Service',
-		function ($scope, $stateParam, <%= capitalize(crudName) %>Service) {
-			var id<%= capitalize(crudName) %> = $stateParam.id;
+	app.controller('Formulario<%= capitalize(crudName) %>Controller', ['$scope', '$stateParams', '<%= capitalize(crudName) %>Service',
+		function ($scope, $stateParams, <%= capitalize(crudName) %>Service) {
+			var id<%= capitalize(crudName) %> = $stateParams.id;
 
 			$scope.salvar = function (<%= crudName %>) {
 				return <%= capitalize(crudName) %>Service.salvar(<%= crudName %>, id<%= capitalize(crudName) %>);
