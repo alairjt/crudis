@@ -3,11 +3,8 @@
     <% ld.forEach(fields, function (field) { %>
       <div class="col-sm-6">
         <nx-display-validation input="<%= crudName.toLowerCase() %>Formulario.<%= field.nome.toLowerCase() %>" label="<%= capitalize(field.nome) %>"
-                               obrigatorio="field.obrigatorio">
-          <input nx-focus="true" type="text" class="form-control"
-                 id="<%= field.nome.toLowerCase() %>" name="<%= field.nome.toLowerCase() %>"
-                 ng-model="<%= crudName.toLowerCase() %>Selecionado.<%= field.nome.toLowerCase() %>"
-                 ng-required="field.obrigatorio"/>
+                               obrigatorio="true">
+          <%= obterInputPorTipo(crudName, field) %>
         </nx-display-validation>
       </div>
     <% }) %>

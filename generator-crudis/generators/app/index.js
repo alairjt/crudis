@@ -46,6 +46,63 @@
             }
         }
     };
+    
+    var obterInputPorTipo = function (crudName, field) {
+        var criarInput = function (crudName, field) {
+            var obterInputType = function (tipo) {
+                var type = "text", mask = "";
+                switch (tipo) {
+                    case "Integer":
+                        type = "number";
+                        break;
+                    case "Email":
+                        type = "email";
+                        break;                        
+                    case "Decimal":
+                        mask = "currency";
+                        break;
+                    case "CNPJ / CPF":
+                        mask = "cpfcnpj";
+                        break;
+                    default:
+                        type = "text";
+                        break;
+                }
+                
+                return {type: type, mask: mask};
+            };
+
+            var specsField = obterInputType(field.tipo);
+            return '<input type="' + specsField.type + '" ' + specsField.mask + ' class="form-control"' +
+                 ' id="' + field.nome.toLowerCase() + '" name="' + field.nome.toLowerCase() + '"' +
+                 ' ng-model="' + crudName.toLowerCase() + 'Selecionado.' + field.nome.toLowerCase() + '"'+
+                 ' ng-required="true"/>';
+        };
+        
+        var criarInputDate = function(crudName, field) {
+            return '<calendar label="Data" model="' + crudName.toLowerCase() + 'Selecionado.' + field.nome.toLowerCase() + '" format="dd/MM/yyyy"></calendar>';
+        };
+        
+        var input = "";
+        
+        switch (field.tipo) {
+            case "String":
+            case "Integer":
+            case "Email":
+            case "Decimal":
+            case "CNPJ / CPF":
+                input = criarInput(crudName, field);
+                break;
+            case "Date":
+                input = criarInputDate(crudName, field);
+                break;
+            default:
+                throw new Error("Tipo inexistente");
+                break;
+        }
+         
+         return input;
+    };
 
     module.exports = yeoman.generators.Base.extend({
         prompting: function () {
@@ -85,9 +142,11 @@
                     default: "String",
                     choices: [
                         "String",
-                        "Number",
+                        "Integer",
+                        "Decimal",
                         "Date",
-                        "CNPJ / CPF"
+                        "CNPJ / CPF",
+                        "Email"
                     ]
                 }, {
                     type: 'confirm',
@@ -150,7 +209,7 @@
             this.ld = lodash;
             this.uc = underscore;
             this.capitalize = capitalize;
-
+            this.obterInputPorTipo = obterInputPorTipo;
             this.fields = fields;
 
             this.nomeConsultaController = 'Consulta'.concat(capitalize(this.crudName)).concat('Controller');
