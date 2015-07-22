@@ -1,3 +1,8 @@
 app.factory("<%=capitalize(crudName) %>", ['nxResource', 'SERVICES', function (nxResource, SERVICES) {
-    return nxResource(<%=servico%>);
+                
+    var <%=recurso.toLowerCase()%> = {path: '<%=recurso.toLowerCase()%>/:id'};
+    
+    SERVICES.addResource(SERVICES.<%=servico%>, {<%=recurso.toLowerCase()%>: <%=recurso.toLowerCase()%>});
+        
+    return nxResource(SERVICES.<%=servico%>.<%=recurso.toLowerCase()%>);
 }]);

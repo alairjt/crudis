@@ -125,10 +125,22 @@
                         return buscarMenusDisponiveis();
                     }
                 }, {
-                    type: "input",
+                    type: "list",
                     name: "servico",
-                    message: "Qual serviço utilizar? Ex.:",
-                    default: 'SERVICES.pagamentoCadastro'
+                    message: "Qual serviço utilizar?",
+                    choices: [
+                        "banco",
+                        "cliente",
+                        "pagamentoCadastro",
+                        "pagamentoOperacao"
+                    ]
+                }, {
+                    when: function (response) {
+                        return !response.novoRecurso;
+                    },
+                    type: "input",
+                    name: "recurso",
+                    message: "Qual recurso será utilizado?"
                 }];
 
             var promptsField = [{
@@ -198,6 +210,7 @@
                     self.crudName = props.crudName;
                     self.menu = props.menu.toLowerCase();
                     self.servico = props.servico;
+                    self.recurso = props.recurso;
 
                     askField();
                 }.bind(self));
