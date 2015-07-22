@@ -21,17 +21,20 @@
             <br/>
             <div class="row">
                 <div class="col-12">
-                    <!--@TODO Retirado para teste: ng-show="filtered.length > 0"-->
-                    <table class="table table-condensed noCursor">
+                    <table class="table table-condensed noCursor" ng-show="filtered.length > 0">
                         <tr>
                             <% ld.forEach(fields, function (field) { %>
                                 <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field.nome.toLowerCase()%>')">{{"<%=capitalize(field.nome)%>"| translate}}</a></th>
                             <% }) %>
+                            <th class="text-center col-lg-1">{{"Editar"| translate}}</th>
                         </tr>
                         <tr dir-paginate="<%=crudName.toLowerCase()%> in filtered | orderBy:campoOrderBy:reverse | itemsPerPage: pageSize" current-page="currentPage">
                             <% ld.forEach(fields, function (field) { %>
                                 <td class="text-center col-lg-2">{{<%=crudName.toLowerCase()%>.<%=field.nome.toLowerCase()%>}}</td>
                             <% }) %>
+                            <td class="text-center col-lg-1">
+                                <a id="linkEditarBanco" href="" ui-sref="home.<%=menu.toLowerCase()%>.<%=crudName.toLowerCase()%>.editar({id: <%=crudName.toLowerCase()%>.id})" class="glyphicon glyphicon-pencil" title="Editar registro"></a>
+                            </td>
                         </tr>
                     </table>
                     <div class="panel" ng-show="filtered.length > 0">
