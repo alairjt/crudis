@@ -25,6 +25,17 @@
             
             return buscarPorId(id, cbSuccess, cbError);
         };
+        
+        var fileChanged = function (element, callback) {
+            if (element.files[0]) {
+                var image = element.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    callback(image, e);
+                };
+                reader.readAsBinaryString(image);
+            }
+        };
 
         var emEdicao = function (id) {
             return id !== undefined;
@@ -32,10 +43,11 @@
 
         return {
             buscar: buscar,
-            salvar: salvar,
             buscarPorId: buscarPorId,
             buscarParaEdicao: buscarParaEdicao,
-            emEdicao: emEdicao
+            emEdicao: emEdicao,
+            fileChanged: fileChanged,
+            salvar: salvar
         };
     }]);
 })();

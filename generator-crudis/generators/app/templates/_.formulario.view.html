@@ -3,7 +3,7 @@
     <% ld.forEach(fields, function (field) { %>
         <% if (ld.contains(field.telas, "formulario")) { %>
             <div class="col-sm-6">
-              <nx-display-validation input="<%= crudName.toLowerCase() %>Formulario.<%= field.nome.toLowerCase() %>" label="<%= capitalize(field.nome) %>"
+              <nx-display-validation input="<%= crudName.toLowerCase() %>Formulario.<%= field.nome %>" label="<%= capitalize(field.nome) %>"
                                      obrigatorio="true">
                 <%= obterInputPorTipo(crudName, field) %>
               </nx-display-validation>

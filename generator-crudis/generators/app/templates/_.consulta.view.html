@@ -25,7 +25,7 @@
                         <tr>
                             <% ld.forEach(fields, function (field) { %>
                                 <% if (ld.contains(field.telas, "consulta")) { %>
-                                    <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field.nome.toLowerCase()%>')">{{"<%=capitalize(field.nome)%>"| translate}}</a></th>
+                                    <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field.nome%>')">{{"<%=capitalize(field.nome)%>"| translate}}</a></th>
                                 <% } %>
                             <% }) %>
                             <th class="text-center col-lg-1">{{"Editar"| translate}}</th>
@@ -33,7 +33,7 @@
                         <tr dir-paginate="<%=crudName.toLowerCase()%> in filtered | orderBy:campoOrderBy:reverse | itemsPerPage: pageSize" current-page="currentPage">
                             <% ld.forEach(fields, function (field) { %>
                                 <% if (ld.contains(field.telas, "consulta")) { %>
-                                    <td class="text-center col-lg-2">{{<%=crudName.toLowerCase()%>.<%=field.nome.toLowerCase()%>}}</td>
+                                    <td class="text-center col-lg-2">{{<%=crudName.toLowerCase()%>.<%=field.nome%>}}</td>
                                 <% } %>
                             <% }) %>
                             <td class="text-center col-lg-1">

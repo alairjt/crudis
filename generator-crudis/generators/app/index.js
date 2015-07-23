@@ -74,27 +74,34 @@
 
             var specsField = obterInputType(field.tipo);
             return '<input type="' + specsField.type + '" ' + specsField.mask + ' class="form-control"' +
-                 ' id="' + field.nome.toLowerCase() + '" name="' + field.nome.toLowerCase() + '"' +
-                 ' ng-model="' + crudName.toLowerCase() + 'Selecionado.' + field.nome.toLowerCase() + '"'+
+                 ' id="' + field.nome + '" name="' + field.nome + '"' +
+                 ' ng-model="' + crudName.toLowerCase() + 'Selecionado.' + field.nome + '"'+
                  ' ng-required="true"/>';
         };
         
-        var criarInputDate = function(crudName, field) {
-            return '<calendar label="Data" model="' + crudName.toLowerCase() + 'Selecionado.' + field.nome.toLowerCase() + '" format="dd/MM/yyyy"></calendar>';
+        var criarInputImagem = function (crudName, field) {
+            return '<input ng-model="image" value="' + crudName.toLowerCase() + 'Selecionado.' + field.nome + '" onchange="angular.element(this).scope().fileChanged(this, \'' + field.nome + '\');" type="file" accept="image/*" />';
+        };
+        
+        var criarInputDate = function (crudName, field) {
+            return '<calendar label="Data" model="' + crudName.toLowerCase() + 'Selecionado.' + field.nome + '" format="dd/MM/yyyy"></calendar>';
         };
         
         var input = "";
         
         switch (field.tipo) {
-            case "String":
-            case "Integer":
-            case "Email":
-            case "Decimal":
             case "CNPJ / CPF":
+            case "Decimal":
+            case "Email":
+            case "Integer":
+            case "String":
                 input = criarInput(crudName, field);
                 break;
             case "Date":
                 input = criarInputDate(crudName, field);
+                break;
+            case "Imagem":
+                input = criarInputImagem(crudName, field);
                 break;
             default:
                 throw new Error("Tipo inexistente");
@@ -153,12 +160,13 @@
                     message: "Tipo do campo",
                     default: "String",
                     choices: [
-                        "String",
-                        "Integer",
-                        "Decimal",
-                        "Date",
                         "CNPJ / CPF",
-                        "Email"
+                        "Date",
+                        "Decimal",
+                        "Email",
+                        "Imagem",
+                        "Integer",
+                        "String"
                     ]
                 }, {
                     type: "checkbox",
