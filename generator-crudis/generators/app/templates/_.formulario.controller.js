@@ -18,6 +18,13 @@
                     $scope.$apply();
                 });
             };
+            
+            <%  ld.forEach(fields, function (field) {
+                    if (field.tipo === "Combobox") { %>
+                        $scope.lista<%= capitalize(field.nome)%> = <%= field.comboboxData%>;
+            <%      }
+                }) 
+            %>
         }
     ]);
 })();

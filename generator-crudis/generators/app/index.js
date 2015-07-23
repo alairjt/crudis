@@ -87,6 +87,12 @@
             return '<calendar label="Data" model="' + crudName.toLowerCase() + 'Selecionado.' + field.nome + '" format="dd/MM/yyyy"></calendar>';
         };
         
+        var criarInputCombobox = function (crudName, field) {
+            return '<select class="form-control" name="' + field.nome + '" ng-model="' + crudName.toLowerCase() + 'Selecionado.' + field.nome + '" id="' + field.nome + '"' +
+                        'ng-options="data as data.nome for data in lista' + capitalize(field.nome) + '" ng-required="true">' +
+                    '</select>';
+        };
+        
         var input = "";
         
         switch (field.tipo) {
@@ -96,6 +102,9 @@
             case "Integer":
             case "String":
                 input = criarInput(crudName, field);
+                break;
+            case "Combobox":
+                input = criarInputCombobox(crudName, field);
                 break;
             case "Date":
                 input = criarInputDate(crudName, field);
@@ -165,6 +174,7 @@
                     default: "String",
                     choices: [
                         "CNPJ / CPF",
+                        "Combobox",
                         "Date",
                         "Decimal",
                         "Email",
@@ -172,6 +182,28 @@
                         "Integer",
                         "String"
                     ]
+                }, {
+                    when: function (data) {
+                        return data.tipo === 'Combobox';
+                    },
+                    type: "confirm",
+                    name: "comboboxDataFromService",
+                    message: "Os dados da combobox serão carregados a partir de um serviço?",
+                    default: true
+                }, {
+                    when: function (data) {
+                        return data.tipo === 'Combobox' && data.comboboxDataFromService;
+                    },
+                    type: "input",
+                    name: "comboboxService",
+                    message: "Informe o serviço/recurso a ser utilizado (ex.: SERVICES.banco.bancos)"
+                }, {
+                    when: function (data) {
+                        return data.tipo === 'Combobox' && !data.comboboxDataFromService;
+                    },
+                    type: "input",
+                    name: "comboboxData",
+                    message: "Informe os dados da combobox no formato Chave1:Valor1;Chave2:Valor2"
                 }, {
                     type: "checkbox",
                     name: "telas",
@@ -218,9 +250,26 @@
             };
 
             var askField = function () {
-                self.prompt(promptsField, function (props) {
-                    fields.push({nome: props.nome, tipo: props.tipo, telas: props.telas, label: props.label});
+                var efetuarParseComboboxData = function (data) {
+                    if (!data) return;
 
+                    var retorno = [];
+                    var dados = data.split(";");
+                    for (var key in dados) {
+                        var chaveValor = dados[key].split(":");
+                        retorno.push({nome: chaveValor[0], valor: chaveValor[1]});
+                    }
+                    
+                    return JSON.stringify(retorno);
+                };
+                
+                self.prompt(promptsField, function (props) {
+                    fields.push({
+                        nome: props.nome, tipo: props.tipo, telas: props.telas, 
+                        label: props.label, comboboxDataFromService: props.comboboxDataFromService,
+                        comboboxService: props.comboboxService, comboboxData: efetuarParseComboboxData(props.comboboxData)
+                    });
+                    
                     processarRetornoPrompt(props.adicionarOutro, askField, askFim);
                 }.bind(self));
             };
