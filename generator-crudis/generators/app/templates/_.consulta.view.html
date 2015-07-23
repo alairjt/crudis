@@ -25,7 +25,7 @@
                         <tr>
                             <% ld.forEach(fields, function (field) { %>
                                 <% if (ld.contains(field.telas, "consulta")) { %>
-                                    <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field.nome%>')">{{"<%=capitalize(field.nome)%>"| translate}}</a></th>
+                                    <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field.nome%>')">{{"<%=field.label%>"| translate}}</a></th>
                                 <% } %>
                             <% }) %>
                             <th class="text-center col-lg-1">{{"Editar"| translate}}</th>
@@ -37,7 +37,7 @@
                                 <% } %>
                             <% }) %>
                             <td class="text-center col-lg-1">
-                                <a id="linkEditarBanco" href="" ui-sref="home.<%=menu.toLowerCase()%>.<%=crudName.toLowerCase()%>.editar({id: <%=crudName.toLowerCase()%>.id})" class="glyphicon glyphicon-pencil" title="Editar registro"></a>
+                                <a id="linkEditarBanco" href="" ui-sref="home.<%=menu.toLowerCase()%>.<%=crudName.toLowerCase()%>.editar({id: <%=crudName.toLowerCase()%>.id})" class="glyphicon glyphicon-pencil" title="{{'Editar registro' | translate}}"></a>
                             </td>
                         </tr>
                     </table>

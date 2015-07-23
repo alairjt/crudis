@@ -155,6 +155,10 @@
                     name: 'nome',
                     message: 'Nome do campo'
                 }, {
+                    type: 'input',
+                    name: 'label',
+                    message: 'Label do campo'
+                }, {
                     type: "list",
                     name: "tipo",
                     message: "Tipo do campo",
@@ -215,7 +219,7 @@
 
             var askField = function () {
                 self.prompt(promptsField, function (props) {
-                    fields.push({nome: props.nome, tipo: props.tipo, telas: props.telas});
+                    fields.push({nome: props.nome, tipo: props.tipo, telas: props.telas, label: props.label});
 
                     processarRetornoPrompt(props.adicionarOutro, askField, askFim);
                 }.bind(self));
