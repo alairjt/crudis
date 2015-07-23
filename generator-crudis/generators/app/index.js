@@ -161,6 +161,14 @@
                         "Email"
                     ]
                 }, {
+                    type: "checkbox",
+                    name: "telas",
+                    message: "Utilizar o campo nas telas:",
+                    choices: [
+                        "consulta",
+                        "formulario"
+                    ]
+                }, {
                     type: 'confirm',
                     name: 'adicionarOutro',
                     message: 'Adicionar outro campo?',
@@ -199,7 +207,7 @@
 
             var askField = function () {
                 self.prompt(promptsField, function (props) {
-                    fields.push({nome: props.nome, tipo: props.tipo});
+                    fields.push({nome: props.nome, tipo: props.tipo, telas: props.telas});
 
                     processarRetornoPrompt(props.adicionarOutro, askField, askFim);
                 }.bind(self));
