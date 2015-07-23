@@ -148,7 +148,8 @@
                         "banco",
                         "cliente",
                         "pagamentoCadastro",
-                        "pagamentoOperacao"
+                        "pagamentoOperacao",
+                        "rbac"
                     ]
                 }, {
                     when: function (response) {
