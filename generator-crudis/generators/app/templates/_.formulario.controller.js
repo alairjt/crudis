@@ -2,7 +2,24 @@
     'use strict';
 
     app.controller('Formulario<%= capitalize(crudName) %>Controller', ['$scope', '$stateParams', '<%= capitalize(crudName) %>Service', '$base64',
-        function ($scope, $stateParams, <%= capitalize(crudName) %>Service, $base64) {
+        <%  ld.forEach(fields, function (field) {
+                if (field.tipo === "Combobox") { %>
+                    <%  if (field.comboboxDataFromService) { %>
+                            '<%= field.comboboxService%>',
+                    <%  } %>
+        <%      }
+            }) 
+        %>
+        function ($scope, $stateParams, <%= capitalize(crudName) %>Service, $base64
+            <%  ld.forEach(fields, function (field) {
+                    if (field.tipo === "Combobox") { %>
+                        <%  if (field.comboboxDataFromService) { %>
+                                , <%= field.comboboxService%>
+                        <%  } %>
+            <%      }
+                }) 
+            %>
+            ) {
             var id<%= capitalize(crudName) %> = $stateParams.id;
 
             $scope.<%= crudName.toLowerCase() %>Selecionado = <%= capitalize(crudName) %>Service.buscarParaEdicao(id<%= capitalize(crudName) %>);
@@ -21,7 +38,11 @@
             
             <%  ld.forEach(fields, function (field) {
                     if (field.tipo === "Combobox") { %>
-                        $scope.lista<%= capitalize(field.nome)%> = <%= field.comboboxData%>;
+                        <%  if (!field.comboboxDataFromService) { %>
+                                $scope.lista<%= capitalize(field.nome)%> = <%= field.comboboxData%>;
+                        <%  } else { %>
+                                $scope.lista<%= capitalize(field.nome)%> = <%= field.comboboxService%>.query();
+                        <%  } %>
             <%      }
                 }) 
             %>
