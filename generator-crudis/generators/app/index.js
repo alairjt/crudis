@@ -70,7 +70,7 @@
                 }
             }
 
-            var templateController = function (crudName, tipoController) {
+            var gerarTemplatesCrud = function (crudName, tipoController) {
                 var nomeController = self.capitalize(tipoController).concat(self.capitalize(crudName)).concat('Controller');
                 var pathController = crudName.toLowerCase().concat('/').concat(nomeController).concat('.js');
                 var pathView = crudName.toLowerCase().concat('/').concat(tipoController.toLowerCase()).concat(self.capitalize(crudName)).concat('.html');
@@ -87,25 +87,23 @@
                 };
             };
 
-            var consultaController = templateController(self.crudName, 'consulta');
-            var formularioController = templateController(self.crudName, 'formulario');
+            var consultaController = gerarTemplatesCrud(self.crudName, 'consulta');
+            var formularioController = gerarTemplatesCrud(self.crudName, 'formulario');
             
-            this.pathConsultaView = consultaController.pathView;
-            this.nomeConsultaController = consultaController.nomeController;
-            this.pathFormularioView = formularioController.pathView;
-            this.nomeFormularioController = formularioController.nomeController;
-
-            self.pathService = self.crudName.toLowerCase().concat('/').concat(self.capitalize(self.crudName) + 'Service.js');
-            self.template('_.service.js', self.pathService);
-            utils.adicionarScriptAoIndex(self.pathService);
+            self.pathConsultaView = consultaController.pathView;
+            self.nomeConsultaController = consultaController.nomeController;
+            self.pathFormularioView = formularioController.pathView;
+            self.nomeFormularioController = formularioController.nomeController;
             
-            self.pathResource = self.crudName.toLowerCase().concat('/').concat(self.capitalize(self.crudName)).concat('.js');
-            self.template('_.resource.js', self.pathResource);
-            utils.adicionarScriptAoIndex(self.pathResource);
-
-            self.pathRoute = self.crudName.toLowerCase().concat('/').concat(self.capitalize(self.crudName) + 'Config.js');
-            self.template('_.route.config.js', self.pathRoute);
-            utils.adicionarScriptAoIndex(self.pathRoute);
+            var gerarTemplateBasico = function (template, crudName, endName) {
+                var pathService = crudName.toLowerCase().concat('/').concat(self.capitalize(self.crudName).concat(endName));
+                self.template(template, pathService);
+                utils.adicionarScriptAoIndex(pathService);
+            };
+            
+            gerarTemplateBasico('_.service.js', self.crudName, 'Service.js');
+            gerarTemplateBasico('_.resource.js', self.crudName, '.js');
+            gerarTemplateBasico('_.route.config.js', self.crudName, 'Config.js');
 
             utils.adicionarAoMenu(self.crudName, self.menu);
         }
