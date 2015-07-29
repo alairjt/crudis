@@ -6,7 +6,7 @@ describe('[Controller] Formulario<%= capitalize(crudName) %>Controller.js', func
     var retorno = [{id: 1, nomeBanco: 'nome1'}, {id: 2, nomeBanco: 'nome2'}];
 
     beforeEach(function () {
-        module('hiveSuporteApp', 'nxTemplatesTest', 'testMockRun');
+        module('hiveApp', 'nxTemplatesTest', 'testMockRun');
         
         inject(function ($injector) {
             $httpBackend = $injector.get('$httpBackend');
