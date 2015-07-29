@@ -2,9 +2,11 @@
     'use strict';
 
     var wiring = require('html-wiring'),
-            underscore = require('underscore.string');
+        lodash = require('lodash'),
+        underscore = require('underscore.string');
 
     var capitalize = function (string) {
+        var string = string || "";
         return underscore.capitalize(string.toLowerCase());
     };
 
@@ -33,7 +35,7 @@
         var menu = parserMenuJson();
 
         for (var i = 0; i < menu.menus.length; i++) {
-            if (menu.menus[i].url.toLowerCase() === nomeMenu.toLowerCase()) {
+            if (menu.menus[i].url && menu.menus[i].url.toLowerCase() === nomeMenu.toLowerCase()) {
                 menu.menus[i].submenus.push(criarMenu(crudName, nomeMenu));
 
                 wiring.writeFileFromString(JSON.stringify(menu), 'template/menu.json');
@@ -42,31 +44,38 @@
         }
     };
 
+    var getDisplayField = function (crudName, field) {
+        var mask = obterInputType(field.tipo).mask;
+        var filter = mask !== '' ? ' | ' + mask : "";
+
+        return crudName.toLowerCase() + "." + field.nome + filter;
+    };
+
+    var obterInputType = function (tipo) {
+        var type = "text", mask = "";
+        switch (tipo) {
+            case "Integer":
+                type = mask = "number";
+                break;
+            case "Email":
+                type = mask = "email";
+                break;
+            case "Decimal":
+                type = mask = "currency";
+                break;
+            case "CNPJ / CPF":
+                type = mask = "cpfcnpj";
+                break;
+            default:
+                type = "text";
+                break;
+        }
+
+        return {type: type, mask: mask};
+    };
+
     var obterInputPorTipo = function (crudName, field) {
         var criarInput = function (crudName, field) {
-            var obterInputType = function (tipo) {
-                var type = "text", mask = "";
-                switch (tipo) {
-                    case "Integer":
-                        type = "number";
-                        break;
-                    case "Email":
-                        type = "email";
-                        break;
-                    case "Decimal":
-                        mask = "currency";
-                        break;
-                    case "CNPJ / CPF":
-                        mask = "cpfcnpj";
-                        break;
-                    default:
-                        type = "text";
-                        break;
-                }
-
-                return {type: type, mask: mask};
-            };
-
             var specsField = obterInputType(field.tipo);
             return '<input type="' + specsField.type + '" ' + specsField.mask + ' class="form-control"' +
                     ' id="' + field.nome + '" name="' + field.nome + '"' +
@@ -120,7 +129,9 @@
         var menus = [];
 
         for (var i = 0; i < menu.menus.length; i++) {
-            menus.push(capitalize(menu.menus[i].url));
+            if (menu.menus[i].url) {
+                menus.push(capitalize(menu.menus[i].url));
+            }
         }
 
         return menus;
@@ -144,6 +155,18 @@
         return JSON.stringify(retorno);
     };
 
+    var hasFieldFormulario = function (fields) {
+        var retorno = false;
+        for (var key in fields) {
+            if (lodash.contains(fields[key].telas, "formulario") === true) {
+                retorno = true;
+                break;
+            }
+        }
+        
+        return retorno;
+    };
+
     module.exports = {
         adicionarAoMenu: adicionarAoMenu,
         adicionarScriptAoIndex: adicionarScriptAoIndex,
@@ -151,7 +174,10 @@
         capitalize: capitalize,
         criarMenu: criarMenu,
         efetuarParseComboboxData: efetuarParseComboboxData,
+        getDisplayField: getDisplayField,
+        hasFieldFormulario: hasFieldFormulario,
         obterInputPorTipo: obterInputPorTipo,
+        obterInputType: obterInputType,
         parserMenuJson: parserMenuJson,
         processarRetornoPrompt: processarRetornoPrompt
     };

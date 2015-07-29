@@ -20,10 +20,14 @@
                     message: "Qual serviço utilizar?",
                     choices: [
                         "banco",
+                        "cartao",
                         "cliente",
+                        "endereco",
+                        "grupo",
                         "pagamentoCadastro",
                         "pagamentoOperacao",
-                        "rbac"
+                        "rbac",
+                        "rbacPermissoes"
                     ]
                 }, {
                     when: function (response) {

@@ -16,34 +16,36 @@
                         operacoes: []
                     }
                 })
-                .state('home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>.novo', {
-                    url: "novo",
-                    transition: "home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>",
-                    views: {
-                        'content@': {
-                            templateUrl: "<%= pathFormularioView %>",
-                            controller: "<%= nomeFormularioController %>"
+                <% if (showFormulario) { %>
+                    .state('home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>.novo', {
+                        url: "novo",
+                        transition: "home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>",
+                        views: {
+                            'content@': {
+                                templateUrl: "<%= pathFormularioView %>",
+                                controller: "<%= nomeFormularioController %>"
+                            }
+                        },
+                        data: {
+                            displayName: 'Novo',
+                            operacoes: []
                         }
-                    },
-                    data: {
-                        displayName: 'Novo',
-                        operacoes: []
-                    }
-                })
-                .state('home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>.editar', {
-                    url: "editar/:id",
-                    transition: "home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>",
-                    views: {
-                        'content@': {
-                            templateUrl: "<%= pathFormularioView %>",
-                            controller: "<%= nomeFormularioController %>"
+                    })
+                    .state('home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>.editar', {
+                        url: "editar/:id",
+                        transition: "home.<%= menu.toLowerCase() %>.<%= crudName.toLowerCase() %>",
+                        views: {
+                            'content@': {
+                                templateUrl: "<%= pathFormularioView %>",
+                                controller: "<%= nomeFormularioController %>"
+                            }
+                        },
+                        data: {
+                            displayName: 'Editar',
+                            operacoes: []
                         }
-                    },
-                    data: {
-                        displayName: 'Editar',
-                        operacoes: []
-                    }
-                })
+                    })
+                <% } %>
                 ;
     }]);
 })();

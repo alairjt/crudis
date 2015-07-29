@@ -9,16 +9,18 @@
                 </div>
             </div>
             <br/>
-            <div class="row">
-                <div class="col-12">
-                    <div class="panel">
-                        <div class="input-group">
-                            <button id="btnNovo<%=capitalize(crudName)%>" ng-click="cancelarRegistro()" ui-sref="home.<%=menu.toLowerCase()%>.<%=crudName.toLowerCase()%>.novo" class="btn btn-success navbar-right" type="button"><span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{{"label.novo"| translate}}</span></button>
+            <% if (showFormulario) { %>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="panel">
+                            <div class="input-group">
+                                <button id="btnNovo<%=capitalize(crudName)%>" ng-click="cancelarRegistro()" ui-sref="home.<%=menu.toLowerCase()%>.<%=crudName.toLowerCase()%>.novo" class="btn btn-success navbar-right" type="button"><span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{{"label.novo"| translate}}</span></button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br/>
+                <br/>
+            <% } %>
             <div class="row">
                 <div class="col-12">
                     <table class="table table-condensed noCursor" ng-show="filtered.length > 0">
@@ -28,17 +30,21 @@
                                     <th class="text-center col-lg-2"><a href="" ng-click="ordenarCamposPor('<%=field.nome%>')">{{"<%=field.label%>"| translate}}</a></th>
                                 <% } %>
                             <% }) %>
-                            <th class="text-center col-lg-1">{{"Editar"| translate}}</th>
+                            <% if (showFormulario) { %>
+                                <th class="text-center col-lg-1">{{"Editar"| translate}}</th>
+                            <% } %>
                         </tr>
                         <tr dir-paginate="<%=crudName.toLowerCase()%> in filtered | orderBy:campoOrderBy:reverse | itemsPerPage: pageSize" current-page="currentPage">
                             <% ld.forEach(fields, function (field) { %>
                                 <% if (ld.contains(field.telas, "consulta")) { %>
-                                    <td class="text-center col-lg-2">{{<%=crudName.toLowerCase()%>.<%=field.nome%>}}</td>
+                                    <td class="text-center col-lg-2">{{<%=getDisplayField(crudName, field)%>}}</td>
                                 <% } %>
                             <% }) %>
-                            <td class="text-center col-lg-1">
-                                <a id="linkEditarBanco" href="" ui-sref="home.<%=menu.toLowerCase()%>.<%=crudName.toLowerCase()%>.editar({id: <%=crudName.toLowerCase()%>.id})" class="glyphicon glyphicon-pencil" title="{{'Editar registro' | translate}}"></a>
-                            </td>
+                            <% if (showFormulario) { %>
+                                <td class="text-center col-lg-1">
+                                    <a id="linkEditarBanco" href="" ui-sref="home.<%=menu.toLowerCase()%>.<%=crudName.toLowerCase()%>.editar({id: <%=crudName.toLowerCase()%>.id})" class="glyphicon glyphicon-pencil" title="{{'Editar registro' | translate}}"></a>
+                                </td>
+                            <% } %>
                         </tr>
                     </table>
                     <div class="panel" ng-show="filtered.length > 0">

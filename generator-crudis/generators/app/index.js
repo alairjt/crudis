@@ -11,7 +11,7 @@
             promptCrud = require('./prompts/crud.js'),
             promptFim = require('./prompts/finalizar.js'),
             fields = [];
-
+            
     module.exports = yeoman.generators.Base.extend({
         prompting: function () {
             var self = this,
@@ -58,7 +58,9 @@
             self.uc = underscore;
             self.capitalize = utils.capitalize;
             self.obterInputPorTipo = utils.obterInputPorTipo;
+            self.getDisplayField = utils.getDisplayField;
             self.fields = fields;
+            self.showFormulario = utils.hasFieldFormulario(self.fields);
 
             for (var key in self.fields) {
                 if (self.fields[key].comboboxRecursoExistente === false) {
@@ -90,12 +92,14 @@
             };
 
             var consultaController = gerarTemplatesCrud(self.crudName, 'consulta');
-            var formularioController = gerarTemplatesCrud(self.crudName, 'formulario');
-            
             self.pathConsultaView = consultaController.pathView;
             self.nomeConsultaController = consultaController.nomeController;
-            self.pathFormularioView = formularioController.pathView;
-            self.nomeFormularioController = formularioController.nomeController;
+            
+            if (self.showFormulario) {
+                var formularioController = gerarTemplatesCrud(self.crudName, 'formulario');
+                self.pathFormularioView = formularioController.pathView;
+                self.nomeFormularioController = formularioController.nomeController;
+            }
             
             var gerarTemplateBasico = function (template, crudName, endName) {
                 var pathService = crudName.toLowerCase().concat('/').concat(self.capitalize(self.crudName).concat(endName));
