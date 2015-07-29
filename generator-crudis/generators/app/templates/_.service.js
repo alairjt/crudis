@@ -2,9 +2,7 @@
     'use strict';
 
     app.factory('<%= capitalize(crudName) %>Service', ['<%= capitalize(crudName) %>', function (<%= capitalize(crudName) %>) {
-        var buscar = function (filtros, cbSuccess, cbError) {
-            return <%= capitalize(crudName) %>.query(filtros, cbSuccess, cbError);
-        };
+        var buscar = <%= capitalize(crudName) %>.query;
 
         var salvar = function (<%= crudName.toLowerCase() %>, id, cbSuccess, cbError) {
             if (emEdicao(id)) {

@@ -73,10 +73,12 @@
             var gerarTemplatesCrud = function (crudName, tipoController) {
                 var nomeController = self.capitalize(tipoController).concat(self.capitalize(crudName)).concat('Controller');
                 var pathController = crudName.toLowerCase().concat('/').concat(nomeController).concat('.js');
+                var pathControllerTest = '../test/spec/'.concat(crudName.toLowerCase()).concat('/').concat(nomeController).concat('Test.js');
                 var pathView = crudName.toLowerCase().concat('/').concat(tipoController.toLowerCase()).concat(self.capitalize(crudName)).concat('.html');
 
                 self.template('_.'.concat(tipoController).concat('.view.html'), pathView);
                 self.template('_.'.concat(tipoController).concat('.controller.js'), pathController);
+                self.template('_.'.concat(tipoController).concat('.controller.test.js'), pathControllerTest);
 
                 utils.adicionarScriptAoIndex(pathController);
                 
