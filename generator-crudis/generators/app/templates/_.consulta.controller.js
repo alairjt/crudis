@@ -29,7 +29,28 @@
                 
                 $scope.selecionarRegistro = function (registro) {
                     $scope.<%= crudName.toLowerCase() %>Selecionado = registro;
-                }; 
+                };
+                
+                <% if (attrs.tipoVisualizacao === 'Agrupada') { %>
+                    $scope.expandir = function (grupo) {
+                       $scope.grupoExpandido = ($scope.grupoExpandido === grupo) ? {} : grupo;
+                    };
+
+                    $scope.titleGrupo = function (grupo) {
+                       return ($scope.grupoExpandido === grupo) ? "label.recolher" : "label.expandir";
+                    };
+
+                    $scope.styleGrupo = function (grupo) {
+                       var selecionado = {'background-color': '#cccccc', 'font-weight': 'bold', 'cursor': 'pointer'};
+                       var naoSelecionado = {'background-color': '#dbdbdb', 'cursor': 'pointer'};
+
+                       return ($scope.grupoExpandido === grupo) ? selecionado : naoSelecionado;
+                    };
+
+                    $scope.expandido = function (grupo) {
+                       return $scope.grupoExpandido === grupo;
+                    };
+                <% } %>
             }
 	]);
 })();

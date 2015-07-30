@@ -40,10 +40,14 @@
 
             var ask = function () {
                 self.prompt(promptCrud.prompts, function (props) {
+                    self.attrs = props;
                     self.crudName = props.crudName;
                     self.menu = props.menu.toLowerCase();
                     self.servico = props.servico;
                     self.recurso = props.recurso;
+                    self.campoGrupo = props.campoGrupo;
+                    self.campoGrupoDetalhes = props.campoGrupoDetalhes;
+                    self.campoGrupoTotal = props.campoGrupoTotal;
 
                     askField();
                 }.bind(self));
@@ -78,7 +82,11 @@
                 var pathControllerTest = '../test/spec/'.concat(crudName.toLowerCase()).concat('/').concat(nomeController).concat('Test.js');
                 var pathView = crudName.toLowerCase().concat('/').concat(tipoController.toLowerCase()).concat(self.capitalize(crudName)).concat('.html');
 
-                self.template('_.'.concat(tipoController).concat('.view.html'), pathView);
+                if (self.attrs.tipoVisualizacao === 'Simples') {
+                    self.template('_.'.concat(tipoController).concat('.view.html'), pathView);
+                } else {
+                    self.template('_.'.concat(tipoController).concat('.agrupada.view.html'), pathView);
+                }
                 self.template('_.'.concat(tipoController).concat('.controller.js'), pathController);
                 self.template('_.'.concat(tipoController).concat('.controller.test.js'), pathControllerTest);
 

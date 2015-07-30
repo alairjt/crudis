@@ -16,6 +16,36 @@
                     }
                 }, {
                     type: "list",
+                    name: "tipoVisualizacao",
+                    message: "Qual tipo da consulta?",
+                    choices: [
+                        'Simples',
+                        'Agrupada'
+                    ],
+                    default: 'Simples'
+                }, {
+                    when: function (response) {
+                        return response.tipoVisualizacao === 'Agrupada';
+                    },
+                    type: "input",
+                    name: "campoGrupo",
+                    message: "Informe o nome do campo a ser agrupado"
+                }, {
+                    when: function (response) {
+                        return response.tipoVisualizacao === 'Agrupada';
+                    },
+                    type: "input",
+                    name: "campoGrupoDetalhes",
+                    message: "Informe o nome do campo dos detalhes"
+                }, {
+                    when: function (response) {
+                        return response.tipoVisualizacao === 'Agrupada';
+                    },
+                    type: "input",
+                    name: "campoGrupoTotal",
+                    message: "Informe o nome do campo do totalizador"
+                }, {
+                    type: "list",
                     name: "servico",
                     message: "Qual serviço utilizar?",
                     choices: [
