@@ -25,7 +25,7 @@
                   data-target="#dialogCancelamento"><i class="glyphicon glyphicon-remove"></i> <span class="hidden-xs">{{"Cancelar"| translate}}</span>
           </button>
           <button id="btnSalvar<%=capitalize(crudName)%>" class="btn btn-success" ng-click="salvar(<%= crudName.toLowerCase() %>Selecionado)"
-                  ng-disabled="<%= crudName.toLowerCase() %>Form.$invalid"><i class="glyphicon glyphicon-ok"></i>
+                  ng-disabled="<%= crudName.toLowerCase() %>Formulario.$invalid"><i class="glyphicon glyphicon-ok"></i>
             <span class="hidden-xs">{{"Salvar"| translate}}</span></button>
         </div>
       </div>
