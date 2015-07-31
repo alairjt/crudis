@@ -30,6 +30,8 @@
         "html-wiring": "^1.1.0"
     },
     "devDependencies": {
-    "mocha": "*"
+        "mocha": "*",
+        "sinon": "*",
+        "fs-extra": "*"
     }
 }
