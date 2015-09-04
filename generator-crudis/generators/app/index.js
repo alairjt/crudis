@@ -2,8 +2,7 @@
     'use strict';
 
     var yeoman = require('yeoman-generator'),
-            chalk = require('chalk'),
-            yosay = require('yosay'),
+            nxUtils = require('nx-utils'),
             lodash = require('lodash'),
             underscore = require('underscore.string'),
             utils = require('./utils.js'),
@@ -17,7 +16,7 @@
             var self = this,
                     done = self.async();
 
-            self.log(yosay('Bem vindo ao '.concat(chalk.red('Crudis Generator!'))));
+            this.log(nxUtils.nexxSay("Crudis Generator"));
 
             var askFim = function () {
                 self.prompt(promptFim.prompts, function (props) {
