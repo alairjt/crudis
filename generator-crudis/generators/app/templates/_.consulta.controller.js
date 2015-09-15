@@ -37,7 +37,7 @@
                     };
 
                     $scope.titleGrupo = function (grupo) {
-                       return ($scope.grupoExpandido === grupo) ? "label.recolher" : "label.expandir";
+                       return ($scope.grupoExpandido === grupo) ? "Recolher" : "Expandir";
                     };
 
                     $scope.styleGrupo = function (grupo) {
