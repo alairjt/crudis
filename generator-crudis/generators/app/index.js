@@ -64,6 +64,7 @@
             self.getDisplayField = utils.getDisplayField;
             self.fields = fields;
             self.showFormulario = utils.hasFieldFormulario(self.fields);
+            self.hasImageField = utils.hasImageField(self.fields);
 
             for (var key in self.fields) {
                 if (self.fields[key].comboboxRecursoExistente === false) {

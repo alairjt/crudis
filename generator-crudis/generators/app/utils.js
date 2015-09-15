@@ -166,6 +166,18 @@
         
         return retorno;
     };
+    
+    var hasImageField = function (fields) {
+        var retorno = false;
+        for (var key in fields) {
+            if (lodash.contains(fields[key].tipo, "Imagem") === true) {
+                retorno = true;
+                break;
+            }
+        }
+        
+        return retorno;
+    };
 
     module.exports = {
         adicionarAoMenu: adicionarAoMenu,
@@ -176,6 +188,7 @@
         efetuarParseComboboxData: efetuarParseComboboxData,
         getDisplayField: getDisplayField,
         hasFieldFormulario: hasFieldFormulario,
+        hasImageField: hasImageField,
         obterInputPorTipo: obterInputPorTipo,
         obterInputType: obterInputType,
         parserMenuJson: parserMenuJson,
